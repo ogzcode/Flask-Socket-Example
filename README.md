@@ -26,7 +26,7 @@ Bu değer sayesinde nesne sayfa içerisindeki normal akıştan çıkmaz ama top,
 Örnek Çalışma => 
 Relative Link: https://codepen.io/ogzCode/pen/poaYRgv<br>
 <hr>
-<h3><strong>position: stick</strong></h3>
+<h3><strong>position: sticky</strong></h3>
 <p>
 Bu değer uygulanan nesnenin istenilen konuma geldiğinde nesnenin o konumda sabitlenmesini sağlar.Örneğin top: 0 olduğunda nesnenin sayfanın yukarısına sabitlenmesini sağlayabiliriz.
 </p>
