@@ -1,0 +1,28 @@
+# Python bytecode files
+__pycache__
+*.pyc
+
+# Virtualenv
+.env
+venv
+
+instance/
+
+# Pipenv
+Pipfile
+Pipfile.lock
+
+# Test files
+*.db
+.pytest_cache/
+
+# IDE files
+.idea/
+.vscode/
+
+# Logs
+logs/
+
+# Others
+*.md
+README.md
