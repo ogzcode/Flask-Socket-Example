@@ -1,0 +1,17 @@
+<div class="column is-one-quarter has-background-primary-light is-flex" style="border-radius: .75rem;">
+    <aside class="menu" style="width: 100%">
+        <p class="menu-label has-text-dark is-size-5">
+            Users
+        </p>
+        <ul class="menu-list">
+            {% for user in users %}
+                <li class="has-background-primary p-2 mb-2 is-clickable" 
+                    @click="selectedUser = { email: '{{ user.email }}', id: {{ user.id }} }"
+                    style="border-radius: .25rem;"
+                    :class="{'has-background-warning': selectedUser.id === {{ user.id }} }">
+                    {{ user.username }}
+                </li>
+            {% endfor %}
+        </ul>
+    </aside>
+</div>
