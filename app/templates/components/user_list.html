@@ -5,7 +5,7 @@
         </p>
         <ul class="menu-list">
             {% for user in users %}
-                <li class="has-background-primary p-2 mb-2 is-clickable" 
+                <li class="has-background-primary has-text-white p-2 mb-2 is-clickable" 
                     @click="selectedUser = { email: '{{ user.email }}', id: {{ user.id }} }"
                     style="border-radius: .25rem;"
                     :class="{'has-background-warning': selectedUser.id === {{ user.id }} }">
