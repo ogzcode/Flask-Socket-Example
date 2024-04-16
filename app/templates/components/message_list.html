@@ -1,37 +1,20 @@
-<div class="container mt-4" id="messages" x-effect="getMessage(selectedUser.id)"></div>
-
-<script>
-    function getMessage(selectedUserId) {
-        if (!selectedUserId) {
-            const container = document.getElementById('messages')
-            container.innerHTML = '<div class="box">No messages</div>'
-            return
-        }
-
-        fetch(`/chat/${selectedUserId}`)
+<div class="container mt-4" id="messages" data-sender-id="{{ current_user.id }}" x-data="{ messages: [] }" x-effect="
+    if (selectedUser.id) {
+        fetch(`/chat/${selectedUser.id}`)
             .then(response => response.json())
             .then(data => {
-                const container = document.getElementById('messages')
-                if (data.messages.length !== 0) {
-                    container.innerHTML = ''
-                    data.messages.forEach(message => {
-                        const messageElement = document.createElement('div')
-                        messageElement.classList.add('box', 'mt-4', 'mb-4');
-                        if (message.senderIsUser) {
-                            messageElement.innerHTML = `
-                                <p style="text-align: right;">${message.message}</p>
-                            `
-                        } else {
-                            messageElement.innerHTML = `
-                                <p style="text-align: left;">${message.message}</p>
-                            `
-                        }
-                        container.appendChild(messageElement)
-                    })
-                }
-                else {
-                    container.innerHTML = '<div class="box">No messages</div>'
-                }
-            })
+                console.log(data);
+                messages = data.messages;
+            });
     }
-</script>
+">
+    <template x-for="message in messages" :key="message.id">
+        <div class="box mt-4 mb-4">
+            <p x-text="message.message" :class="message.sender_id === {{ current_user.id }} ? 'has-background-primary-light' : ''" class="p-2" 
+            :style="message.sender_id === {{ current_user.id }} ? 'text-align: right;' : 'text-align: left;'"></p>
+        </div>
+    </template>
+    <template x-if="messages.length === 0">
+        <div class="box" id="no-message">No messages</div>
+    </template>
+</div>
