@@ -17,7 +17,27 @@ class Message(db.Model):
     message = db.Column(db.String(128))
     sender_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     receiver_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    room_id = db.Column(db.Integer, db.ForeignKey('rooms.id'))
     created_at = db.Column(db.DateTime, server_default=db.func.now())
+
+    sender = db.relationship('User', foreign_keys=[sender_id])
+    receiver = db.relationship('User', foreign_keys=[receiver_id])
     
     def __repr__(self):
         return f"<Message {self.message}>"
+    
+
+class Rooms(db.Model):
+    __tablename__ = 'rooms'
+    id = db.Column(db.Integer, primary_key=True)
+    user1_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user2_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+
+    user1 = db.relationship('User', foreign_keys=[user1_id])
+    user2 = db.relationship('User', foreign_keys=[user2_id])
+
+    messages = db.relationship('Message', backref='room', lazy='dynamic')
+    
+    def __repr__(self):
+        return f"<Room {self.id}>"
