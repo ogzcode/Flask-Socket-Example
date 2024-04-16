@@ -1,0 +1,19 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<div class="container p-6" style="min-height: 100vh">
+    <button class="button is-danger mb-5" onclick="window.location.href='/logout'">Logout</button>
+    <button class="button is-danger mb-5" onclick="deleteAllMessage()">Delete Messages</button>
+    <div class="columns" x-data="{ selectedUser: {} }"
+        x-init="$watch('selectedUser', (value, oldValue) => roomAction(value, oldValue, '{{ current_user.email }}' ))">
+
+        {% include "./components/user_list.html" %}
+
+        <div class="column has-background-light is-flex is-flex-direction-column" style="border-radius: .75rem;">
+            {% include "./components/chat_input.html" %}
+            {% include "./components/message_list.html" %}
+        </div>
+    </div>
+</div>
+{% endblock %}
