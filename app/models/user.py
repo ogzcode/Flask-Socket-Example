@@ -14,17 +14,17 @@ class User(db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
-    
+
     def __repr__(self):
         return f"<User {self.username}>"
-    
+
     def to_dict(self):
         return {
             "id": self.id,
             "username": self.username,
             "email": self.email
         }
-    
+
 
 class UserServices:
     @staticmethod
@@ -48,26 +48,29 @@ class UserServices:
         return User.query.filter_by(id=user_id).first()
 
     @staticmethod
-    def get_all_users():
+    def get_all_users(user_id=None):
+        if user_id:
+            return User.query.filter(User.id != user_id).all()
+
         return User.query.all()
-    
+
     @staticmethod
     def get_user_by_username(username):
         return User.query.filter_by(username=username).first()
-    
+
     @staticmethod
     def update_user(user, **kwargs):
         for key, value in kwargs.items():
             setattr(user, key, value)
         db.session.commit()
         return user
-    
+
     @staticmethod
     def delete_user(user):
         db.session.delete(user)
         db.session.commit()
         return user
-    
+
     @staticmethod
     def delete_all_users():
         User.query.delete()
