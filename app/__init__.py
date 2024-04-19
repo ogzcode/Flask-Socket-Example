@@ -2,24 +2,25 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from config import Config
-from flask_login import LoginManager
 from flask_socketio import SocketIO
-
-login_manager = LoginManager()
-login_manager.login_view = "login"
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*"}})
 app.config.from_object(Config)
 
-socketio = SocketIO(app)
-
-login_manager.init_app(app)
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
+from app.routes import auth_routes, user_routes, room_routes, message_routes
+from app import socket
 
-from app import models, routes
+app.register_blueprint(auth_routes)
+app.register_blueprint(user_routes)
+app.register_blueprint(room_routes)
+app.register_blueprint(message_routes)
 
 
 if __name__ == "__main__":
