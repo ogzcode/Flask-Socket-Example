@@ -51,12 +51,14 @@ class UserServices:
     def get_all_users(user_id=None):
         if user_id:
             return User.query.filter(User.id != user_id).all()
-
         return User.query.all()
+        
 
     @staticmethod
-    def get_user_by_username(username):
-        return User.query.filter_by(username=username).first()
+    def get_user_by_username(username, user_id=None):
+        if user_id:
+            return User.query.filter(User.username.ilike(f"%{username}%"), User.id != user_id).all()
+        return User.query.filter(User.username.ilike(f"%{username}%")).all()
 
     @staticmethod
     def update_user(user, **kwargs):
