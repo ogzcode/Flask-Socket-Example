@@ -1,0 +1,23 @@
+.message-triangle {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  top: 0;
+  z-index: 1;
+}
+
+.triangle-left {
+  border-bottom: 10px solid #14b8a6;
+  left: -10px;
+  transform: rotate(180deg);
+  top: -1px;
+}
+
+.triangle-right {
+  right: -10px;
+  transform: rotate(180deg);
+  border-bottom: 10px solid #14b8a6;
+
+}
