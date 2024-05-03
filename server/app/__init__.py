@@ -23,5 +23,10 @@ app.register_blueprint(room_routes)
 app.register_blueprint(message_routes)
 
 
+@app.route("/")
+def index():
+    return "Hello, World!"
+
+
 if __name__ == "__main__":
     socketio.run(app)
