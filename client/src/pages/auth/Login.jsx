@@ -21,10 +21,9 @@ export const Login = () => {
     });
     const [showPassword, setShowPassword] = useState(false)
 
-    const handleLogin = async (e) => {
-        e.preventDefault()
+    const handleLogin = async (data) => {
         try {
-            const response = await login(email, password)
+            const response = await login(data)
             const { token, user } = response.data
             setToken(token)
             setAuthenticatedUser(user)
@@ -37,8 +36,8 @@ export const Login = () => {
     return (
         <div className='h-full flex justify-center items-center flex-col relative'>
             <h1 className='mb-2 text-3xl font-semibold text-slate-600 text-center'>Login</h1>
-            <h3 className='italic text-slate-500 mb-6 font-light'>Welcome back! Please sign in to join the chat.</h3>
-            <p className='absolute right-4 top-4 text-slate-500 text-sm'>
+            <h3 className='italic text-slate-500 mb-6 font-light lg:text-base text-sm'>Welcome back! Please sign in to join the chat.</h3>
+            <p className='absolute lg:right-4 top-4 text-slate-500 text-sm '>
                 Don't have an account? <Link to='/register' className='text-teal-600'>Register</Link>
             </p>
             <form onSubmit={handleSubmit(handleLogin)} className='flex flex-col w-full px-8'>
