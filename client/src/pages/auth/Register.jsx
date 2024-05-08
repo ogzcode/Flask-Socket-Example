@@ -46,7 +46,6 @@ export default function Register() {
             <p className='absolute lg:right-4 top-4 text-slate-500 text-sm '>
                 Already have an account? <Link to='/login' className='text-teal-600'>Sign in</Link>
             </p>
-            <button onClick={() => handleRegister({})}>Show</button>
             <form onSubmit={handleSubmit(handleRegister)} className='flex flex-col w-full px-8'>
                 <div className='mb-6'>
                     <label htmlFor="email" className='text-slate-600 block mb-1'>Username</label>

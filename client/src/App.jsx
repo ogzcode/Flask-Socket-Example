@@ -19,7 +19,7 @@ function App() {
   }, [])
 
   return (
-    <div className="bg-stone-50 min-h-screen font-poppins">
+    <div className="min-h-screen font-poppins" style={{ backgroundImage: "linear-gradient(to bottom, #e6e9f0 0%, #eef1f5 100%)"}}>
       <Routes>
         {
           isAuthenticated ? (
