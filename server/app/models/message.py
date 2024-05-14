@@ -77,9 +77,22 @@ class MessageServices:
     # Buraya bakılmalı hem gönderen hemde kendi son mesajı görmeli
     @staticmethod
     def get_last_message(sender_id, receiver_id):
-        message = Message.query.filter_by(
-            sender_id=sender_id, receiver_id=receiver_id).order_by(Message.created_at.desc()).first()
-        return message
+        message1 = Message.query.filter_by(sender_id=sender_id, receiver_id=receiver_id).order_by(
+            Message.created_at.desc()).first()
+        message2 = Message.query.filter_by(sender_id=receiver_id, receiver_id=sender_id).order_by(
+            Message.created_at.desc()).first()
+
+        # En son iletiyi bul
+        if message1 is None:
+            return message2
+        elif message2 is None:
+            return message1
+        else:
+            # İki kullanıcı arasındaki en son iletiyi bul
+            if message1.created_at > message2.created_at:
+                return message1
+            else:
+                return message2
 
     @staticmethod
     def get_and_mark_unread_messages_by_room_id(room_id, receiver_id):
