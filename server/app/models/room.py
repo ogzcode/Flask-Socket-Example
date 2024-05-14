@@ -80,3 +80,8 @@ class RoomServices:
         for room in rooms:
             db.session.delete(room)
         db.session.commit()
+
+    @staticmethod
+    def get_users_in_room(room_id):
+        room = Rooms.query.get(room_id)
+        return room.user1, room.user2
