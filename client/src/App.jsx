@@ -10,16 +10,22 @@ import AuthLayout from './pages/auth/AuthLayout.jsx'
 
 import { getToken } from "./services/tokenServices.js"
 
+import { checkAuth } from './services/api/auth.js'
+
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
 
   useEffect(() => {
     const token = getToken()
-    setIsAuthenticated(token !== null)
+    if (token) {
+      checkAuth()
+        .then(() => setIsAuthenticated(true))
+        .catch(() => setIsAuthenticated(false))
+    }
   }, [])
 
   return (
-    <div className="min-h-screen font-poppins" style={{ backgroundImage: "linear-gradient(to bottom, #e6e9f0 0%, #eef1f5 100%)"}}>
+    <div className="min-h-screen font-poppins" style={{ backgroundImage: "linear-gradient(to bottom, #e6e9f0 0%, #eef1f5 100%)" }}>
       <Routes>
         {
           isAuthenticated ? (

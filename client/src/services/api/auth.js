@@ -7,3 +7,7 @@ export const login = async (data) => {
 export const register = async (data) => {
     return await request.post('/register', data);
 }
+
+export const checkAuth = async () => {
+    return await request.get('/checkAuth');
+}
