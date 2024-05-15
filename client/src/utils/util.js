@@ -8,14 +8,12 @@ export const formatTime = (dateString) => {
         hour12: true
     };
 
-    // Eğer iletişim bugün yapıldıysa sadece saat bilgisini döndür
-    if (date.toDateString() === now.toDateString()) {
+    if (date.toLocaleDateString() === now.toLocaleDateString()) {
         return new Intl.DateTimeFormat("en-US", options).format(date);
     } else {
-        // Eğer iletişim bugün değilse tarih ve saat bilgisini döndür
-        options.year = "numeric";
-        options.month = "2-digit";
-        options.day = "2-digit";
-        return new Intl.DateTimeFormat("en-US", options).format(date);
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}.${month}.${year} ${new Intl.DateTimeFormat("en-US", options).format(date)}`;
     }
 }
