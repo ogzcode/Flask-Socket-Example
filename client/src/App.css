@@ -2,8 +2,6 @@
   position: absolute;
   width: 0;
   height: 0;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
   top: 0;
   z-index: 1;
 }
@@ -13,11 +11,12 @@
   left: -10px;
   transform: rotate(180deg);
   top: -1px;
+  border-right: 10px solid transparent;
 }
 
 .triangle-right {
+  border-left: 10px solid transparent;
   right: -10px;
   transform: rotate(180deg);
   border-bottom: 10px solid #14b8a6;
-
 }
