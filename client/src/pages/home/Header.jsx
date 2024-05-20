@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import chat from "../../assets/chat.png"
 
-import { BsBoxArrowRight } from "react-icons/bs";
+import { AiOutlineLogout } from "react-icons/ai";
 
 import { removeToken, removeAuthenticatedUser, getAuthenticatedUser } from '../../services/tokenServices'
 
@@ -21,9 +21,9 @@ export const Header = () => {
             </div>
             <div className="header-right">
                 <button
-                    className="bg-red-500 text-white p-2 rounded-md hover:bg-red-600 transition"
+                    className="bg-red-500 text-white p-1 rounded-full hover:bg-red-600 transition"
                     onClick={handleLogout}>
-                    <BsBoxArrowRight className='text-xl' />
+                    <AiOutlineLogout className='text-xl' />
                 </button>
             </div>
         </div>

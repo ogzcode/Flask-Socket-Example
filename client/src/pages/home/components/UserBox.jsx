@@ -1,8 +1,10 @@
 import { formatTime } from "../../../utils/util"
 import { BsPersonCircle } from 'react-icons/bs'
+import { useChatStore } from "../../../store/useChatStore"
 
-export default function UserBox({ item, selectedUser, onSelectUser, isSearch }) {
+export default function UserBox({ item, onSelectUser, isSearch }) {
     const user = isSearch ? item : item?.user
+    const { selectedUser } = useChatStore()
 
     return (
         <div key={user?.id}

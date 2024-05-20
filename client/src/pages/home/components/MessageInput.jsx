@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { socket } from '../../../services/socket';
 import { getAuthenticatedUser } from '../../../services/tokenServices';
+import { useChatStore } from '../../../store/useChatStore';
 
-export default function MessageInput({ selectedUserId, roomId }) {
+export default function MessageInput() {
     const [message, setMessage] = useState('')
     const authUser = getAuthenticatedUser()
+    const { selectedUser, roomId } = useChatStore()
 
     const handleSendMessage = () => {
         if (!message) return
 
         socket.emit('message', {
-            receiver_id: selectedUserId,
+            receiver_id: selectedUser.id,
             sender_id: authUser.id,
             message: message,
             room_id: roomId
