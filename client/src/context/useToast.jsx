@@ -15,7 +15,7 @@ export const ToastProvider = ({ children }) => {
         setToast({ message, type });
         setTimeout(() => {
             setToast(null);
-        }, 2000);
+        }, 2500);
     }
 
     const getStyleByType = (type, isText=false) => {
