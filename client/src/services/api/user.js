@@ -8,3 +8,11 @@ export const getAllUsers = async (searchQuery) => {
     return await request.get(`/getAllUsers` , { params: { search: searchQuery } }    
     );
 }
+
+export const updatePassword = async (data) => {
+    return await request.put(`/updatePassword`, data);
+}
+
+export const deleteAccount = async () => {
+    return await request.delete(`/deleteAccount`);
+}
