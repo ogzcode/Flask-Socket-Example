@@ -2,7 +2,7 @@ import { PiDotsThreeCircleVertical } from 'react-icons/pi';
 import { useState, useEffect, useRef } from 'react';
 import clsx from 'clsx';
 
-export default function DropdownMenu({ items }) {
+export default function DropdownMenu({ items, position = "bottom" }) {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
 
@@ -20,6 +20,17 @@ export default function DropdownMenu({ items }) {
         }
     }, [])
 
+    const getPositionStyle = () => {
+        switch (position) {
+            case "bottom":
+                return "top-8 right-0";
+            case "top":
+                return "bottom-8 right-0";
+            default:
+                return "top-8 right-0";
+        }
+    }
+
     return (
         <div ref={dropdownRef} className="relative">
             <PiDotsThreeCircleVertical
@@ -28,12 +39,12 @@ export default function DropdownMenu({ items }) {
             />
             {
                 isOpen && (
-                    <div className="absolute top-8 right-0 bg-white shadow-md rounded-lg border border-gray-200">
+                    <div className={clsx("absolute bg-white shadow-md rounded-lg border border-gray-200", getPositionStyle())}>
                         <ul className="flex flex-col gap-2">
                             {items.map((item, index) => (
                                 <li key={index} className={clsx(
-                                    "flex items-center justify-start gap-2 px-4 py-2 min-w-20 text-sm text-slate-700 hover:bg-slate-50 cursor-pointer text-nowrap",
-                                    item.itemStyle
+                                    "flex items-center justify-start gap-2 px-4 py-2 min-w-20 text-sm cursor-pointer text-nowrap",
+                                    item.itemStyle ? item.itemStyle : "text-slate-700 hover:bg-slate-50"
                                 )}
                                     onClick={() => item.onClickFunc()}>
                                     {item.icon()}
