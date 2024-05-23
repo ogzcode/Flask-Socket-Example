@@ -50,7 +50,7 @@ def join(data):
 def leave(data):
     disconnected_id = data["disconnected_id"]
 
-    leave_room("user-room" + str(disconnected_id))
+    leave_room("user-room-" + str(disconnected_id))
 
     rooms = RoomServices.get_rooms_by_user_id(disconnected_id)
 
