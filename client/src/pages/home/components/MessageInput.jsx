@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { socket } from '../../../services/socket';
 import { getAuthenticatedUser } from '../../../services/tokenServices';
 import { useChatStore } from '../../../store/useChatStore';
@@ -7,6 +7,10 @@ export default function MessageInput() {
     const [message, setMessage] = useState('')
     const authUser = getAuthenticatedUser()
     const { selectedUser, roomId } = useChatStore()
+
+    useEffect(() => {
+        setMessage('')
+    }, [selectedUser]);
 
     const handleSendMessage = () => {
         if (!message) return
@@ -21,12 +25,13 @@ export default function MessageInput() {
     }
 
     return (
-        <div className="flex gap-6 w-full p-4" style={{ position: "sticky", bottom: "" }}>
+        <div className="flex gap-6 w-full p-4" /* style={{ position: "sticky", bottom: "", zIndex: 0 }} */>
             <input
                 type="text"
                 className="h-full w-full text-slate-700 border border-slate-400 rounded-md px-4 py-2 outline-none focus:border-teal-500 focus:outline-teal-300 outline-offset-1"
                 value={message}
                 onChange={e => setMessage(e.target.value)}
+                placeholder="Type your message..."
             />
             <button className="h-full bg-teal-500 text-white rounded px-6 font-semibold" onClick={() => handleSendMessage()}>Send</button>
         </div>

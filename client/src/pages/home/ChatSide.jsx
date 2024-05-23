@@ -48,7 +48,7 @@ export const ChatSide = () => {
 
     return (
         <div className="col-span-3 flex flex-col border rounded-xl border-slate-200 bg-white"
-            style={{ height: 'calc(100vh - 6rem)', position: 'relative' }}
+            style={{ height: 'calc(100vh - 6rem)' }}
         >
             {
                 selectedUser ? (
@@ -57,14 +57,14 @@ export const ChatSide = () => {
                         <div className="h-full px-4 pt-4 font-medium tracking-wide overflow-y-scroll flex-grow">
                             {messageList.map((msg, index) => {
                                 return (
-                                    <React.Fragment key={msg.id}>
+                                    <>
                                         {index > 0 && <MessageSeparator prevDate={messageList[index - 1].created_at} currentDate={msg.created_at} />}
 
                                         <Message
                                             message={msg}
                                             isUserMessage={msg.sender_id === authUser.id}
                                         />
-                                    </React.Fragment>
+                                    </>
                                 );
                             })}
 
