@@ -25,3 +25,16 @@ def deleteAllMessages():
     return jsonify({
         "message": "Messages deleted successfully"
     }), 200
+
+
+@message_routes.route("/deleteChat", methods=["DELETE"])
+@token_required
+def deleteChat():
+    room_id = request.args.get("room_id")
+    MessageServices.delete_chat(room_id)
+
+    RoomServices.delete_room(room_id)
+
+    return jsonify({
+        "message": "Chat deleted successfully"
+    }), 200

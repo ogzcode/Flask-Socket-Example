@@ -1,4 +1,5 @@
 from app import db
+from datetime import datetime
 
 
 class Message(db.Model):
@@ -9,7 +10,7 @@ class Message(db.Model):
     sender_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     receiver_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     room_id = db.Column(db.Integer, db.ForeignKey('rooms.id'))
-    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    created_at = db.Column(db.DateTime, default=datetime.now())
 
     sender = db.relationship('User', foreign_keys=[sender_id])
     receiver = db.relationship('User', foreign_keys=[receiver_id])
@@ -102,3 +103,11 @@ class MessageServices:
                 message.status = 'read'
         db.session.commit()
         return messages
+    
+    @staticmethod
+    def delete_chat(room_id):
+        messages = Message.query.filter_by(room_id=room_id).all()
+        for message in messages:
+            db.session.delete(message)
+        db.session.commit()
+
