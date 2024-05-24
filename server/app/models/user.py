@@ -52,7 +52,6 @@ class UserServices:
         if user_id:
             return User.query.filter(User.id != user_id).all()
         return User.query.all()
-        
 
     @staticmethod
     def get_user_by_username(username, user_id=None):
@@ -77,3 +76,9 @@ class UserServices:
     def delete_all_users():
         User.query.delete()
         db.session.commit()
+
+    @staticmethod
+    def update_password(user, new_password):
+        user.set_password(new_password)
+        db.session.commit()
+

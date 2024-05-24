@@ -35,7 +35,7 @@ def deleteRoomByUserId():
     current_user_id = g.current_user.id
     user = UserServices.get_user_by_id(current_user_id)
     RoomServices.delete_room_by_user_id(current_user_id)
-    return jsonify({"message": f"All rooms connected to {user.username} have been deleted" }), 200
+    return jsonify({"message": f"All rooms connected to {user.username} have been deleted"}), 200
 
 
 @user_routes.route("/deleteAllUsers", methods=["DELETE"])
@@ -53,9 +53,40 @@ def getAllUsers():
 
     contacted_users = RoomServices.get_contacted_users(current_user.id)
 
-    users_not_contacted = [user for user in users if user not in contacted_users]
+    users_not_contacted = [
+        user for user in users if user not in contacted_users]
 
     return jsonify({
         "users": [user.to_dict() for user in users_not_contacted],
         "message": "All users fetched successfully"
     }), 200
+
+
+@user_routes.route("/deleteAccount", methods=["DELETE"])
+@token_required
+def deleteAccount():
+    current_user = g.current_user
+    UserServices.delete_user(current_user)
+    return jsonify({"message": "Account deleted"}), 200
+
+
+@user_routes.route("/updatePassword", methods=["PUT"])
+@token_required
+def updatePassword():
+    try:
+        data = request.get_json()
+        old_password = data.get("oldPassword")
+        new_password = data.get("newPassword")
+
+        current_user_id = g.current_user.id
+        user = UserServices.get_user_by_id(current_user_id)
+
+        if not user.check_password(old_password):
+            return jsonify({"message": "Old password is incorrect"}), 400
+
+        user.set_password(new_password)
+
+        return jsonify({"message": "Password updated"}), 200
+    except Exception as e:
+        print(e)
+        return jsonify({"message": str(e)}), 400
