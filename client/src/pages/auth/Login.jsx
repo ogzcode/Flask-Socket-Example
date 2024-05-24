@@ -10,6 +10,8 @@ import { setToken, setAuthenticatedUser } from '../../services/tokenServices'
 
 import { Input } from "../../components/Input"
 
+import { useToast } from '../../context/useToast';
+
 const schema = yup.object().shape({
     email: yup.string().email().required(),
     password: yup.string().min(5).required()
@@ -20,6 +22,7 @@ export const Login = () => {
         resolver: yupResolver(schema)
     });
     const [showPassword, setShowPassword] = useState(false)
+    const { showToast } = useToast()
 
     const handleLogin = async (data) => {
         try {
@@ -29,7 +32,7 @@ export const Login = () => {
             setAuthenticatedUser(user)
             window.location.reload()
         } catch (error) {
-            setError(error.response.data.message)
+            showToast({type: "error", message: error.response.data.message})
         }
     }
 

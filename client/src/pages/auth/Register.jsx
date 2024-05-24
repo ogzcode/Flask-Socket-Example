@@ -33,7 +33,6 @@ export default function Register() {
             const response = await registerReq(data)
             navigate('/login')
         } catch (error) {
-            console.log(error.response.data)
             showToast({ message: error.response.data.message, type: 'error' })
         }
     }
