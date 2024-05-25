@@ -4,6 +4,7 @@ import chat from "../../assets/chat.png"
 import { AiOutlineLogout } from "react-icons/ai";
 import { BiUser } from "react-icons/bi";
 import { RiDeleteBin2Fill } from "react-icons/ri";
+import { FaUserAltSlash } from "react-icons/fa";
 
 import { useForm } from "react-hook-form";
 import * as yup from 'yup'
@@ -18,6 +19,8 @@ import ConfirmDialog from "../../components/ConfirmDialog";
 import DropdownMenu from '../../components/DropdownMenu';
 import Modal from "../../components/Modal";
 import { Input } from "../../components/Input";
+import Panel from "../../components/Panel";
+import { BlockUser } from "./components/BlockUser";
 
 const schema = yup.object().shape({
     newPassword: yup.string().min(5, "Password must be longer than 5 characters").required("New password is required"),
@@ -31,6 +34,7 @@ export const Header = () => {
     });
     const [open, setOpen] = useState(false);
     const [passwordModal, setPasswordModal] = useState(false);
+    const [blockedModal, setBlockedModal] = useState(false);
     const { showToast } = useToast();
     const items = [
         {
@@ -38,6 +42,12 @@ export const Header = () => {
             onClickFunc: () => setPasswordModal(true),
             icon: () => <BiUser className="inline-block text-xl text-indigo-700" />,
             itemStyle: "text-indigo-600 hover:bg-indigo-50"
+        },
+        {
+            text: "Blocked Users",
+            onClickFunc: () => setBlockedModal(true),
+            icon: () => <FaUserAltSlash className="inline-block text-xl text-teal-700" />,
+            itemStyle: "text-teal-600 hover:bg-teal-50"
         },
         {
             text: "Delete Account",
@@ -137,6 +147,15 @@ export const Header = () => {
                     </div>
                 </div>
             </Modal>
+
+            <Panel
+                open={blockedModal}
+                onClose={() => setBlockedModal(false)}
+                size="sm"
+                title="Blocked Users"
+            >
+                <BlockUser />
+            </Panel>
         </div>
     )
 }

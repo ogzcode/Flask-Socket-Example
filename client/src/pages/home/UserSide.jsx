@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from 'react'
-import { getAllUsers } from '../../services/api/user'
 import { BsPersonCircle } from "react-icons/bs";
 import { socket } from '../../services/socket';
 import { getAuthenticatedUser } from '../../services/tokenServices';
 import { Header } from './Header';
 import UserBox from './components/UserBox';
+import SearchInput from './components/SearchInput';
 
 import { useChatStore } from '../../store/useChatStore';
 
 export const UserSide = () => {
     const authUser = getAuthenticatedUser()
     const [users, setUsers] = useState(null)
-    const [search, setSearch] = useState('');
+    const [isSearching, setIsSearching] = useState(false)
     const { roomId, updateSelectedUser } = useChatStore()
 
     useEffect(() => {
         socket.on('get_users', (data) => {
+            console.log(data.users)
             setUsers(data.users)
         })
 
@@ -24,29 +25,15 @@ export const UserSide = () => {
         }
     }, [])
 
-    useEffect(() => {
-        if (search !== '') {
-            const fetchUser = async () => {
-                const res = await getAllUsers(search)
-                setUsers(res.data.users)
-            }
-            fetchUser()
-        }
-    }, [search]);
-
 
     const handleJoin = (user) => {
-
         socket.emit('join', {
             receiver_id: user.id,
             sender_id: authUser.id,
             old_room_id: roomId
         });
 
-        if (search !== "") {
-            socket.emit("get_users", { user_id: authUser.id })
-            setSearch('')
-        }
+        socket.emit("get_users", { user_id: authUser.id })
 
         updateSelectedUser(user)
     }
@@ -65,15 +52,7 @@ export const UserSide = () => {
                         <p className="text-xs text-slate-500">{authUser?.email}</p>
                     </div>
                 </div>
-                <div className='px-4 pt-2 pb-6 border-b border-slate-200'>
-                    <input
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                        type="text"
-                        placeholder="Search..."
-                        className="border border-slate-400 text-slate-700 rounded-md px-4 py-2 w-full outline-none focus:border-teal-500 focus:outline-teal-300 outline-offset-1"
-                    />
-                </div>
+                <SearchInput onChangeUsers={setUsers} onChangeIsSearching={setIsSearching} />
             </div>
             <div className="p-4 flex-grow overflow-y-auto">
                 <div className="">
@@ -82,7 +61,7 @@ export const UserSide = () => {
                             key={index}
                             item={item}
                             onSelectUser={handleJoin}
-                            isSearch={search !== ""}
+                            isSearch={isSearching}
                         />
                     ))}
                 </div>
