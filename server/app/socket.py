@@ -1,10 +1,7 @@
 from app import socketio
 from flask_socketio import emit, join_room, leave_room, rooms, close_room
 from flask import request
-from app.models import MessageServices, RoomServices
-
-# Kullanıcı bir odadan ayrıldığında diğer kullanıcı mesaj attığında ona gidip gitmediğini kontrol etmeliyiz
-
+from app.models import MessageServices, RoomServices, BlockServices
 
 @socketio.on("connect")
 def connect(data):
@@ -94,6 +91,10 @@ def emit_get_users(user_id):
         join_room(room)
 
     for user in contacted_users:
+        
+        if BlockServices.is_user_blocked(user_id, user.id) or BlockServices.is_user_blocked(user.id, user_id):
+            continue
+
         user_info = get_user_data(user.id, user_id)
         user_info["user"] = user.to_dict()
 
